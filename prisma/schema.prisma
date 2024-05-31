@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Animal {
+  id                         Int             @id @default(autoincrement())  
+  name                       String          @unique
+  images                     AnimalImage[]
+}
+
+model AnimalImage {
+  id          Int      @id @default(autoincrement())
+  name        String?   @unique
+  location    String?   @unique
+  animal      Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  animalId    Int
+}
